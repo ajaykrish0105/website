@@ -1,0 +1,109 @@
+/* =========================================================================
+   KRISHVERSE - RAW ARCHITECTURAL WALL & CINEMA STYLES
+   ========================================================================= */
+
+@layer base {
+  body {
+    background-color: #131211;
+    color: #ece7db;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+/* Raw Plaster / Concrete Wall Noise Texture */
+.architectural-grain {
+  background-color: #131211;
+  background-image: 
+    radial-gradient(at 10% 20%, rgba(203, 179, 130, 0.03) 0px, transparent 50%),
+    radial-gradient(at 90% 80%, rgba(220, 213, 198, 0.02) 0px, transparent 50%),
+    linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+}
+
+/* Subtle Plaster Vignette */
+.plaster-vignette {
+  background: radial-gradient(circle at 50% 30%, transparent 60%, rgba(13, 12, 11, 0.7) 100%);
+}
+
+/* Raw Architectural Hairline Borders */
+.border-raw-border {
+  border-color: #2b2926;
+}
+
+/* Subtle Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #131211;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2b2926;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #cbb382;
+}
+
+/* Three.js Canvas positioning */
+#cinema-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Filter Button Active State */
+.portfolio-filter-btn.active {
+  background-color: #dcd5c6;
+  color: #0d0c0b;
+  border-color: #dcd5c6;
+}
+
+/* Portfolio Card Styling & Subtle Depth */
+.portfolio-item {
+  border: 1px solid #2b2926;
+  background-color: #1a1917;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.35s ease;
+}
+
+.portfolio-item:hover {
+  transform: translateY(-3px);
+  border-color: #cbb382;
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.8);
+}
+
+.portfolio-item .media-thumb {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+}
+
+.portfolio-item:hover .media-thumb {
+  transform: scale(1.04);
+}
+
+/* ALL MODALS ACTIVE STATE (Auth Modal, Dashboard Modal, Media Modal) */
+#media-modal.active, 
+#auth-modal.active, 
+#admin-dashboard-modal.active {
+  display: flex !important;
+  animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

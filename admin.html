@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HARISH | Private Studio Portal</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            raw: {
+              wall: '#131211',
+              wallAlt: '#1a1917',
+              stucco: '#22201d',
+              border: '#32302b',
+              sand: '#dcd5c6',
+              ochre: '#cbb382',
+              linen: '#ece7db',
+              cement: '#7a766f',
+              charcoal: '#0d0c0b',
+              danger: '#ef4444',
+              success: '#10b981'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Cinzel"', 'serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-raw-wall text-raw-linen font-sans antialiased min-h-screen flex flex-col architectural-grain">
+
+  <!-- HEADER -->
+  <header class="py-4 px-6 md:px-12 bg-raw-wallAlt border-b border-raw-border flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-sm bg-raw-ochre text-raw-charcoal flex items-center justify-center font-serif font-bold text-sm">
+        H
+      </div>
+      <div>
+        <h1 class="font-serif text-sm tracking-widest text-raw-linen uppercase font-semibold">Harish's Private Studio Portal</h1>
+        <p class="font-mono text-[10px] text-raw-cement">Confidential Creator Workspace • @krishhhh.verse</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <a href="index.html" class="px-3.5 py-1.5 rounded-sm border border-raw-border text-raw-cement hover:text-raw-sand font-mono text-xs flex items-center gap-1.5 transition-colors">
+        <i data-lucide="external-link" class="w-3.5 h-3.5"></i> View Public Website
+      </a>
+      <button id="admin-page-logout-btn" class="hidden px-3.5 py-1.5 rounded-sm bg-red-950/60 border border-red-800 text-red-400 hover:bg-red-900 font-mono text-xs font-semibold">
+        Logout
+      </button>
+    </div>
+  </header>
+
+  <!-- LOGIN SCREEN (If not authenticated) -->
+  <div id="portal-auth-container" class="flex-1 flex items-center justify-center p-6">
+    <div class="w-full max-w-sm bg-raw-stucco border border-raw-border rounded-sm p-8 shadow-2xl space-y-6">
+      
+      <div class="text-center space-y-2">
+        <div class="w-12 h-12 mx-auto rounded-sm border border-raw-ochre/40 bg-raw-wall flex items-center justify-center text-raw-ochre">
+          <i data-lucide="shield-lock" class="w-6 h-6"></i>
+        </div>
+        <h2 class="font-serif text-lg text-raw-linen uppercase font-semibold">Studio Verification</h2>
+        <p class="font-mono text-xs text-raw-cement">Enter your personal master password</p>
+      </div>
+
+      <form id="portal-login-form" class="space-y-4 font-mono text-xs">
+        <div>
+          <input type="password" id="portal-password-input" required placeholder="Enter password..." class="w-full px-4 py-3 rounded-sm bg-raw-wall border border-raw-border text-raw-linen focus:border-raw-sand focus:outline-none text-center tracking-widest text-base">
+        </div>
+
+        <div id="portal-auth-error" class="hidden text-red-400 text-center font-semibold">
+          Incorrect password. Access denied.
+        </div>
+
+        <button type="submit" class="w-full py-3 rounded-sm bg-raw-sand hover:bg-raw-linen text-raw-charcoal font-bold uppercase tracking-wider transition-all">
+          Access Studio Portal
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- DASHBOARD MAIN PANEL (Shown when logged in) -->
+  <div id="portal-dashboard-container" class="hidden flex-1 max-w-6xl w-full mx-auto p-6 md:p-10 space-y-8">
+    
+    <!-- Tab Navigation Bar -->
+    <div class="flex flex-wrap border-b border-raw-border bg-raw-wallAlt font-mono text-xs rounded-sm">
+      <button id="p-tab-overview-btn" class="px-5 py-3.5 border-b-2 border-raw-ochre text-raw-sand font-semibold uppercase flex items-center gap-2">
+        <i data-lucide="bar-chart-3" class="w-4 h-4"></i> 1. Live Stats
+      </button>
+      <button id="p-tab-upload-btn" class="px-5 py-3.5 border-b-2 border-transparent text-raw-cement hover:text-raw-sand uppercase flex items-center gap-2">
+        <i data-lucide="hard-drive-upload" class="w-4 h-4"></i> 2. Upload from PC
+      </button>
+      <button id="p-tab-portfolio-btn" class="px-5 py-3.5 border-b-2 border-transparent text-raw-cement hover:text-raw-sand uppercase flex items-center gap-2">
+        <i data-lucide="film" class="w-4 h-4"></i> 3. Manage Works (<span id="p-portfolio-count">0</span>)
+      </button>
+      <button id="p-tab-inquiries-btn" class="px-5 py-3.5 border-b-2 border-transparent text-raw-cement hover:text-raw-sand uppercase flex items-center gap-2">
+        <i data-lucide="inbox" class="w-4 h-4"></i> 4. Client Inquiries (<span id="p-inquiry-count">0</span>)
+      </button>
+      <button id="p-tab-security-btn" class="px-5 py-3.5 border-b-2 border-transparent text-raw-cement hover:text-raw-sand uppercase flex items-center gap-2 ml-auto">
+        <i data-lucide="key-round" class="w-4 h-4 text-raw-ochre"></i> 5. Change Password
+      </button>
+    </div>
+
+    <!-- Tab 1: Live Stats & Info -->
+    <div id="p-tab-overview-content" class="space-y-6">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 font-mono">
+        <div class="p-6 rounded-sm bg-raw-stucco border border-raw-border">
+          <div class="text-raw-cement text-xs uppercase">Published Portfolio Works</div>
+          <div class="font-serif text-3xl text-raw-linen mt-2" id="p-stat-works">0</div>
+          <div class="text-xs text-raw-ochre mt-1">Live on Website</div>
+        </div>
+        <div class="p-6 rounded-sm bg-raw-stucco border border-raw-border">
+          <div class="text-raw-cement text-xs uppercase">Client Booking Inquiries</div>
+          <div class="font-serif text-3xl text-emerald-400 mt-2" id="p-stat-inquiries">0</div>
+          <div class="text-xs text-raw-cement mt-1">With Client Phone & WhatsApp</div>
+        </div>
+        <div class="p-6 rounded-sm bg-raw-stucco border border-raw-border">
+          <div class="text-raw-cement text-xs uppercase">Direct Contact Endpoints</div>
+          <div class="font-serif text-base text-raw-sand mt-2">+91 9940826494</div>
+          <div class="text-xs text-raw-cement mt-0.5">Harish14021204@gmail.com</div>
+        </div>
+      </div>
+
+      <div class="p-6 rounded-sm bg-raw-stucco border border-raw-border space-y-3 font-mono text-xs">
+        <h3 class="font-serif text-sm text-raw-linen uppercase font-semibold">Studio Configuration</h3>
+        <div class="space-y-2 text-raw-cement">
+          <div class="flex justify-between border-b border-raw-border/60 pb-2">
+            <span>Director:</span>
+            <span class="text-raw-sand font-bold">Harish</span>
+          </div>
+          <div class="flex justify-between border-b border-raw-border/60 pb-2">
+            <span>Instagram:</span>
+            <a href="https://www.instagram.com/krishhhh.verse" target="_blank" class="text-raw-ochre underline">@krishhhh.verse</a>
+          </div>
+          <div class="flex justify-between border-b border-raw-border/60 pb-2">
+            <span>WhatsApp Dispatch:</span>
+            <span class="text-emerald-400 font-bold">+91 9940826494</span>
+          </div>
+          <div class="flex justify-between pt-1">
+            <span>Email Destination:</span>
+            <span class="text-raw-sand">Harish14021204@gmail.com</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: Upload from PC -->
+    <div id="p-tab-upload-content" class="hidden max-w-2xl mx-auto space-y-6">
+      <form id="p-upload-form" class="p-8 rounded-sm bg-raw-stucco border border-raw-border space-y-5 font-mono text-xs">
+        <h3 class="font-serif text-base text-raw-linen uppercase font-semibold">Publish New Work</h3>
+        
+        <!-- PC File Picker -->
+        <div class="p-6 border-2 border-dashed border-raw-border hover:border-raw-ochre rounded-sm bg-raw-wall text-center transition-all">
+          <input type="file" id="p-pc-file" accept="video/mp4,video/webm,video/quicktime,image/jpeg,image/png,image/webp,image/jpg" class="hidden">
+          <label for="p-pc-file" class="cursor-pointer block">
+            <div class="w-12 h-12 mx-auto rounded-sm border border-raw-border bg-raw-stucco flex items-center justify-center text-raw-ochre mb-3">
+              <i data-lucide="folder-up" class="w-6 h-6"></i>
+            </div>
+            <span class="text-raw-sand font-bold block text-sm mb-1">Select Video or Photo from your Computer</span>
+            <span class="text-raw-cement text-[11px] block">Browse MP4, MOV, WEBM videos or JPG/PNG photos</span>
+            <span id="p-selected-file-name" class="mt-3 inline-block px-3 py-1 bg-raw-stucco border border-raw-ochre/40 text-raw-ochre rounded-sm font-semibold hidden"></span>
+          </label>
+        </div>
+
+        <div class="text-center text-[10px] text-raw-cement uppercase tracking-widest">— OR PASTE ONLINE URL —</div>
+
+        <div>
+          <label class="block text-raw-sand uppercase tracking-wider font-semibold mb-1">YouTube / Online Link (Optional)</label>
+          <input type="url" id="p-media-url" placeholder="https://www.youtube.com/watch?v=... (Leave empty if uploading file above)" class="w-full px-4 py-3 rounded-sm bg-raw-wall border border-raw-border text-raw-linen focus:border-raw-sand focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block text-raw-sand uppercase tracking-wider font-semibold mb-1">Project Title *</label>
+          <input type="text" id="p-title" required placeholder="e.g. CINEMATIC WEDDING TEASER" class="w-full px-4 py-3 rounded-sm bg-raw-wall border border-raw-border text-raw-linen focus:border-raw-sand focus:outline-none">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-raw-sand uppercase tracking-wider font-semibold mb-1">Category *</label>
+            <select id="p-category" class="w-full px-4 py-3 rounded-sm bg-raw-wall border border-raw-border text-raw-linen focus:border-raw-sand focus:outline-none">
+              <option value="videography">Videography & Cinema</option>
+              <option value="photography">Photography</option>
+              <option value="reels">Reels & Commercials</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-raw-sand uppercase tracking-wider font-semibold mb-1">Media Type *</label>
+            <select id="p-media-type" class="w-full px-4 py-3 rounded-sm bg-raw-wall border border-raw-border text-raw-linen focus:border-raw-sand focus:outline-none">
+              <option value="video">Video</option>
+              <option value="photo">Photo / Image</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-raw-sand uppercase tracking-wider font-semibold mb-1">Camera Gear / Notes</label>
+          <input type="text" id="p-desc" placeholder="e.g. Cinema Rig • 24fps • DaVinci Resolve Grade" class="w-full px-4 py-3 rounded-sm bg-raw-wall border border-raw-border text-raw-linen focus:border-raw-sand focus:outline-none">
+        </div>
+
+        <button type="submit" class="w-full py-3.5 rounded-sm bg-raw-sand hover:bg-raw-linen text-raw-charcoal font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2">
+          <i data-lucide="check-circle" class="w-4 h-4"></i> Upload & Publish to Portfolio
+        </button>
+      </form>
+    </div>
+
+    <!-- Tab 3: Manage Works -->
+    <div id="p-tab-portfolio-content" class="hidden space-y-4 font-mono text-xs">
+      <div class="flex items-center justify-between pb-3 border-b border-raw-border">
+        <span class="text-raw-cement">Live projects currently displayed on the portfolio:</span>
+        <button id="p-reset-portfolio-btn" class="px-3 py-1.5 text-xs rounded-sm border border-raw-border text-raw-cement hover:text-red-400">
+          Reset Default Samples
+        </button>
+      </div>
+      <div class="space-y-3" id="p-portfolio-list"></div>
+    </div>
+
+    <!-- Tab 4: Client Inquiries with Phone & WhatsApp -->
+    <div id="p-tab-inquiries-content" class="hidden space-y-4 font-mono text-xs">
+      <div class="flex items-center justify-between pb-3 border-b border-raw-border">
+        <span class="text-raw-cement">Client booking inquiries received through the website:</span>
+        <button id="p-clear-inquiries-btn" class="px-3 py-1.5 text-xs rounded-sm border border-raw-border text-raw-cement hover:text-red-400">
+          Clear Inquiries History
+        </button>
+      </div>
+      <div class="space-y-4" id="p-inquiries-list"></div>
+    </div>
+
+    <!-- Tab 5: Change Password -->
+    <div id="p-tab-security-content" class="hidden max-w-md mx-auto py-6">
+      <div class="p-8 rounded-sm bg-raw-stucco border border-raw-border space-y-6 font-mono text-xs">
+        <div class="text-center space-y-1">
+          <h3 class="font-serif text-base text-raw-linen uppercase font-semibold">Change Studio Password</h3>
+          <p class="text-raw-cement text-[11px]">Set a new private password for Harish</p>
+        </div>
+
+        <form id="p-password-form" class="space-y-4">
+          <div>
+            <label class="block text-raw-sand uppercase font-semibold mb-1">Current Password *</label>
+            <input type="password" id="p-current-pass" required placeholder="Enter current password..." class="w-full px-3.5 py-2.5 rounded-sm bg-raw-wall border border-raw-border text-raw-linen focus:border-raw-sand focus:outline-none">
+          </div>
+
+          <div>
+            <label class="block text-raw-sand uppercase font-semibold mb-1">New Password *</label>
+            <input type="password" id="p-new-pass" required placeholder="Enter new password..." class="w-full px-3.5 py-2.5 rounded-sm bg-raw-wall border border-raw-border text-raw-linen focus:border-raw-sand focus:outline-none">
+          </div>
+
+          <div>
+            <label class="block text-raw-sand uppercase font-semibold mb-1">Confirm New Password *</label>
+            <input type="password" id="p-confirm-pass" required placeholder="Repeat new password..." class="w-full px-3.5 py-2.5 rounded-sm bg-raw-wall border border-raw-border text-raw-linen focus:border-raw-sand focus:outline-none">
+          </div>
+
+          <div id="p-pass-feedback" class="hidden p-2.5 rounded-sm text-xs font-semibold text-center"></div>
+
+          <button type="submit" class="w-full py-3 rounded-sm bg-raw-sand hover:bg-raw-linen text-raw-charcoal font-bold uppercase tracking-wider transition-all">
+            Update Password
+          </button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    lucide.createIcons();
+    initStandaloneAdminPage();
+  </script>
+</body>
+</html>
