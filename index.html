@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HARISH | Cinema, Photography & Visual Direction</title>
+  <meta name="description" content="Official portfolio and booking website for Harish (@krishhhh.verse). Cinematic videography, editorial photography, and high-end video editing.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            raw: {
+              wall: '#131211',
+              wallAlt: '#1a1917',
+              stucco: '#22201d',
+              border: '#32302b',
+              sand: '#dcd5c6',
+              ochre: '#cbb382',
+              linen: '#ece7db',
+              cement: '#7a766f',
+              charcoal: '#0d0c0b',
+              danger: '#ef4444',
+              success: '#10b981'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Cinzel"', 'serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+            display: ['"Syne"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-raw-wall text-raw-linen font-sans antialiased overflow-x-hidden selection:bg-raw-sand selection:text-black architectural-grain">
+
+  <!-- Ambient Cinematic Particles Canvas -->
+  <canvas id="cinema-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-30"></canvas>
+
+  <!-- Raw Concrete Subtle Wall Vignette Overlay -->
+  <div class="fixed inset-0 pointer-events-none z-0 plaster-vignette"></div>
+
+  <!-- NAVIGATION -->
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4 px-6 md:px-14 backdrop-blur-lg bg-raw-wall/90 border-b border-raw-border" id="navbar">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#hero" class="flex items-center gap-3.5 group">
+        <div class="w-9 h-9 rounded-sm border border-raw-border bg-raw-stucco flex items-center justify-center font-serif text-raw-sand text-xs tracking-widest transition-all group-hover:border-raw-sand">
+          H
+        </div>
+        <div class="flex flex-col">
+          <span class="font-serif font-semibold tracking-[0.25em] text-sm text-raw-linen uppercase">HARISH</span>
+          <span class="font-mono text-[9px] uppercase tracking-[0.2em] text-raw-cement flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-raw-ochre"></span> CINEMA & PHOTOGRAPHY
+          </span>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center gap-8 font-mono text-[11px] uppercase tracking-[0.2em] text-raw-cement">
+        <a href="#portfolio" class="hover:text-raw-sand transition-colors">Portfolio</a>
+        <a href="#cinema" class="hover:text-raw-sand transition-colors text-raw-sand font-medium">Cinema Craft</a>
+        <a href="#services" class="hover:text-raw-sand transition-colors">Services</a>
+        <a href="#workflow" class="hover:text-raw-sand transition-colors">Workflow</a>
+        <a href="#booking" class="hover:text-raw-sand transition-colors">Book Shoot</a>
+      </nav>
+
+      <!-- Right Actions: Instagram, WhatsApp & Book CTA -->
+      <div class="flex items-center gap-3.5">
+        <a href="https://www.instagram.com/krishhhh.verse" target="_blank" rel="noopener noreferrer" 
+           class="flex items-center gap-2 px-3 py-1.5 rounded-sm border border-raw-border bg-raw-wallAlt hover:border-raw-sand/50 transition-all font-mono text-[11px] text-raw-sand">
+          <i data-lucide="instagram" class="w-3.5 h-3.5 text-raw-ochre"></i>
+          <span>@krishhhh.verse</span>
+        </a>
+
+        <a href="https://wa.me/919940826494" target="_blank" rel="noopener noreferrer" 
+           class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-sm border border-emerald-900/50 bg-emerald-950/30 hover:bg-emerald-950/60 transition-all font-mono text-[11px] text-emerald-300">
+          <i data-lucide="phone" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <span>+91 9940826494</span>
+        </a>
+
+        <a href="#booking" class="hidden sm:inline-flex px-5 py-2 rounded-sm border border-raw-sand bg-raw-sand text-raw-charcoal hover:bg-raw-linen hover:border-raw-linen transition-all duration-300 font-mono text-[11px] font-bold uppercase tracking-wider">
+          Book Session
+        </a>
+
+        <button id="mobile-menu-btn" class="md:hidden text-raw-sand p-1" aria-label="Toggle Navigation">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Dropdown -->
+    <div id="mobile-menu" class="hidden md:hidden pt-4 pb-2 border-t border-raw-border mt-3 flex flex-col gap-3 font-mono text-xs uppercase tracking-wider">
+      <a href="#portfolio" class="px-2 py-1.5 hover:text-raw-sand">Portfolio</a>
+      <a href="#cinema" class="px-2 py-1.5 text-raw-sand font-bold">Cinema Craft</a>
+      <a href="#services" class="px-2 py-1.5 hover:text-raw-sand">Services</a>
+      <a href="#workflow" class="px-2 py-1.5 hover:text-raw-sand">Workflow</a>
+      <a href="#booking" class="px-2 py-1.5 text-raw-sand font-bold">Book a Shoot</a>
+      <a href="https://wa.me/919940826494" target="_blank" class="px-2 py-1.5 text-emerald-400">WhatsApp: +91 9940826494</a>
+    </div>
+  </header>
+
+  <!-- 1. LANDING / HERO SECTION -->
+  <section id="hero" class="relative min-h-screen flex items-center justify-center pt-32 pb-20 px-6 z-10">
+    <div class="max-w-5xl mx-auto text-center flex flex-col items-center">
+      
+      <!-- Camera Slate -->
+      <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-sm border border-raw-border bg-raw-stucco/90 font-mono text-[10px] uppercase tracking-[0.2em] text-raw-cement mb-8">
+        <span class="text-raw-ochre">DIRECTOR: HARISH</span>
+        <span>•</span>
+        <span>24.00 FPS</span>
+        <span>•</span>
+        <span>4K DCI</span>
+        <span>•</span>
+        <span class="text-raw-sand font-semibold">@KRISHHHH.VERSE</span>
+      </div>
+
+      <!-- Headline -->
+      <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[1.1] mb-6 text-raw-linen uppercase">
+        RAW CINEMA. <br />
+        <span class="italic font-serif font-normal text-raw-sand lowercase">honest</span> PERSPECTIVES.
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="max-w-2xl text-raw-sand/80 text-sm sm:text-base md:text-lg font-light mb-10 leading-relaxed">
+        Cinematography, editorial photography, and high-impact video editing crafted by Harish. Transforming raw ideas and live shoots into memorable visual stories.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-4 w-full max-w-md">
+        <a href="#portfolio" class="w-full sm:w-auto flex-1 px-8 py-3.5 rounded-sm bg-raw-sand text-raw-charcoal font-mono font-bold text-xs uppercase tracking-widest hover:bg-raw-linen transition-all duration-300 text-center">
+          Explore Showcase
+        </a>
+        <a href="#booking" class="w-full sm:w-auto flex-1 px-8 py-3.5 rounded-sm border border-raw-border bg-raw-stucco hover:border-raw-sand text-raw-sand font-mono text-xs uppercase tracking-widest transition-all duration-300 text-center">
+          Book a Shoot
+        </a>
+      </div>
+
+      <!-- Technical Spec Bar -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mt-20 pt-8 border-t border-raw-border w-full max-w-4xl font-mono text-left">
+        <div class="p-4 rounded-sm bg-raw-stucco border border-raw-border">
+          <div class="text-[10px] text-raw-cement uppercase tracking-wider">Shooting Standard</div>
+          <div class="font-serif text-xl text-raw-linen mt-0.5">4K / 8K Cinema</div>
+          <div class="text-[10px] text-raw-ochre mt-1">10-Bit 4:2:2 Color</div>
+        </div>
+        <div class="p-4 rounded-sm bg-raw-stucco border border-raw-border">
+          <div class="text-[10px] text-raw-cement uppercase tracking-wider">Aspect Framing</div>
+          <div class="font-serif text-xl text-raw-linen mt-0.5">2.39:1 Scope</div>
+          <div class="text-[10px] text-raw-sand mt-1">Cinematic Framing</div>
+        </div>
+        <div class="p-4 rounded-sm bg-raw-stucco border border-raw-border">
+          <div class="text-[10px] text-raw-cement uppercase tracking-wider">Color Science</div>
+          <div class="font-serif text-xl text-raw-linen mt-0.5">DaVinci Resolve</div>
+          <div class="text-[10px] text-raw-ochre mt-1">Kodak & Film Emulation</div>
+        </div>
+        <div class="p-4 rounded-sm bg-raw-stucco border border-raw-border">
+          <div class="text-[10px] text-raw-cement uppercase tracking-wider">Contact & Inquiries</div>
+          <div class="font-serif text-base text-raw-linen mt-1 truncate">+91 9940826494</div>
+          <div class="text-[10px] text-raw-ochre mt-0.5 truncate">Harish14021204@gmail.com</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 2. PORTFOLIO / WORK SECTION -->
+  <section id="portfolio" class="relative py-28 px-6 z-10 border-t border-raw-border bg-raw-wallAlt">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
+        <div>
+          <div class="font-mono text-[10px] text-raw-ochre uppercase tracking-[0.25em] mb-2 flex items-center gap-2">
+            <span class="w-2 h-2 bg-raw-ochre rounded-full"></span> PREVIOUS EDITS & CAPTURES
+          </div>
+          <h2 class="font-serif text-3xl sm:text-5xl text-raw-linen uppercase tracking-tight">HARISH'S PORTFOLIO</h2>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2" id="portfolio-filters">
+          <button class="portfolio-filter-btn active px-4 py-2 rounded-sm font-mono text-[11px] uppercase tracking-wider transition-all" data-category="all">All Works</button>
+          <button class="portfolio-filter-btn px-4 py-2 rounded-sm font-mono text-[11px] uppercase tracking-wider text-raw-cement hover:text-raw-sand transition-all" data-category="videography">Videography</button>
+          <button class="portfolio-filter-btn px-4 py-2 rounded-sm font-mono text-[11px] uppercase tracking-wider text-raw-cement hover:text-raw-sand transition-all" data-category="photography">Photography</button>
+          <button class="portfolio-filter-btn px-4 py-2 rounded-sm font-mono text-[11px] uppercase tracking-wider text-raw-cement hover:text-raw-sand transition-all" data-category="reels">Reels & Ads</button>
+        </div>
+      </div>
+
+      <!-- Portfolio Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="portfolio-grid"></div>
+
+      <!-- Instagram Callout -->
+      <div class="mt-20 p-8 sm:p-10 rounded-sm bg-raw-stucco border border-raw-border flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-sm border border-raw-border bg-raw-wall flex items-center justify-center text-raw-ochre flex-shrink-0">
+            <i data-lucide="instagram" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h4 class="font-serif text-lg text-raw-linen uppercase">Follow Daily Visuals</h4>
+            <p class="font-mono text-xs text-raw-cement mt-0.5">Explore behind-the-scenes shoots, color grades, and edits on <span class="text-raw-sand font-bold">@krishhhh.verse</span></p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="https://wa.me/919940826494" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-sm border border-emerald-800 bg-emerald-950/40 hover:bg-emerald-900 text-emerald-300 font-mono text-xs uppercase tracking-wider transition-all flex items-center gap-1.5">
+            <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> WhatsApp
+          </a>
+          <a href="https://www.instagram.com/krishhhh.verse" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-sm border border-raw-border bg-raw-wallAlt hover:border-raw-sand text-raw-sand font-mono text-xs uppercase tracking-wider transition-all flex items-center gap-1.5">
+            Instagram <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- VIDEOGRAPHY ON CINEMA CRAFT -->
+  <section id="cinema" class="relative py-28 px-6 z-10 border-t border-raw-border bg-raw-wall">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="text-center max-w-3xl mx-auto mb-20">
+        <div class="font-mono text-[10px] text-raw-ochre uppercase tracking-[0.25em] mb-2 flex items-center justify-center gap-2">
+          <span class="w-2 h-2 bg-raw-ochre rounded-full"></span> MOTION PICTURE CRAFT
+        </div>
+        <h2 class="font-serif text-3xl sm:text-5xl text-raw-linen uppercase tracking-tight mb-4">
+          VIDEOGRAPHY ON CINEMA
+        </h2>
+        <p class="text-raw-sand/80 text-sm sm:text-base font-light leading-relaxed">
+          Crafting footage with deliberate lighting ratios, lens optics, skin rendering, and acoustic audio design to deliver an authentic cinematic presence.
+        </p>
+      </div>
+
+      <!-- Viewfinder 2.39:1 -->
+      <div class="relative rounded-sm overflow-hidden border border-raw-border bg-raw-stucco mb-16 shadow-2xl">
+        <div class="relative aspect-[21/9] w-full overflow-hidden bg-black flex items-center justify-center">
+          <img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?w=1600&auto=format&fit=crop&q=90" alt="Cinema Frame" class="w-full h-full object-cover opacity-80 filter contrast-105">
+          
+          <div class="absolute inset-0 pointer-events-none p-6 sm:p-12 flex flex-col justify-between">
+            <div class="flex justify-between font-mono text-[10px] text-raw-sand/70">
+              <span>● REC [RAW 4K]</span>
+              <span>2.39:1 SCOPE</span>
+              <span>TC 01:24:18:04</span>
+            </div>
+            <div class="self-center w-12 h-12 border border-raw-sand/30 flex items-center justify-center">
+              <div class="w-1 h-1 bg-raw-ochre"></div>
+            </div>
+            <div class="flex justify-between font-mono text-[10px] text-raw-sand/70">
+              <span>ISO 800 • 5600K</span>
+              <span>SHUTTER 180.0°</span>
+              <span>FPS 24.00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-6 sm:p-8 bg-raw-wallAlt border-t border-raw-border grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <div class="font-mono text-xs text-raw-ochre uppercase font-semibold">01. Optical Precision</div>
+            <p class="text-xs text-raw-cement mt-1">Cinema prime lenses calibrated for organic bokeh, natural edge falloff, and dimensional depth.</p>
+          </div>
+          <div>
+            <div class="font-mono text-xs text-raw-ochre uppercase font-semibold">02. Cinematic Color Science</div>
+            <p class="text-xs text-raw-cement mt-1">Custom DaVinci Resolve node trees matching Kodak 2383 film stock and accurate skin tone preservation.</p>
+          </div>
+          <div>
+            <div class="font-mono text-xs text-raw-ochre uppercase font-semibold">03. Dynamic Audio Space</div>
+            <p class="text-xs text-raw-cement mt-1">Sound design with multi-track ambient foley, spatial bass presence, and surgical noise elimination.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Pillars -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="p-6 rounded-sm bg-raw-stucco border border-raw-border">
+          <div class="w-10 h-10 rounded-sm border border-raw-border bg-raw-wall flex items-center justify-center text-raw-ochre mb-4">
+            <i data-lucide="clapperboard" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-serif text-base text-raw-linen uppercase mb-2">Narrative & Commercial</h3>
+          <p class="text-xs text-raw-cement leading-relaxed">
+            Story-driven cinematography structured with purposeful camera movement and emotional lighting design.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-sm bg-raw-stucco border border-raw-border">
+          <div class="w-10 h-10 rounded-sm border border-raw-border bg-raw-wall flex items-center justify-center text-raw-ochre mb-4">
+            <i data-lucide="sparkles" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-serif text-base text-raw-linen uppercase mb-2">DaVinci Color Grading</h3>
+          <p class="text-xs text-raw-cement leading-relaxed">
+            Transforming flat raw LOG footage into rich cinematic contrast with tailored film LUTs and grain density.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-sm bg-raw-stucco border border-raw-border">
+          <div class="w-10 h-10 rounded-sm border border-raw-border bg-raw-wall flex items-center justify-center text-raw-ochre mb-4">
+            <i data-lucide="compass" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-serif text-base text-raw-linen uppercase mb-2">Gimbal & Drone Kinematics</h3>
+          <p class="text-xs text-raw-cement leading-relaxed">
+            Ultra-smooth multi-axis gimbal movements, cinematic tracking shots, and 4K aerial drone coverage.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-sm bg-raw-stucco border border-raw-border">
+          <div class="w-10 h-10 rounded-sm border border-raw-border bg-raw-wall flex items-center justify-center text-raw-ochre mb-4">
+            <i data-lucide="music-2" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-serif text-base text-raw-linen uppercase mb-2">Spatial Sound Sculpting</h3>
+          <p class="text-xs text-raw-cement leading-relaxed">
+            Acoustic audio mastering, bass-layer impact design, custom sound FX, and studio-grade dialogue enhancement.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3. SERVICES SECTION -->
+  <section id="services" class="relative py-28 px-6 z-10 border-t border-raw-border bg-raw-wallAlt">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <div class="font-mono text-[10px] text-raw-ochre uppercase tracking-[0.25em] mb-2 flex items-center justify-center gap-2">
+          <span class="w-2 h-2 bg-raw-ochre rounded-full"></span> CAPABILITIES
+        </div>
+        <h2 class="font-serif text-3xl sm:text-5xl text-raw-linen uppercase tracking-tight mb-3">SERVICES OFFERED</h2>
+        <p class="text-raw-sand/80 text-xs sm:text-sm font-light">What Harish delivers for brands, creators, and private clients.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <div class="p-8 rounded-sm bg-raw-stucco border border-raw-border hover:border-raw-sand transition-all duration-300 flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-sm border border-raw-border bg-raw-wall flex items-center justify-center text-raw-ochre mb-6">
+              <i data-lucide="video" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-serif text-xl text-raw-linen uppercase mb-3">Cinematography & Shoots</h3>
+            <p class="text-xs text-raw-cement leading-relaxed mb-6">
+              On-location filming for brand ads, commercial campaigns, music videos, interviews, and viral social media reels.
+            </p>
+            <ul class="space-y-2.5 font-mono text-xs text-raw-sand border-t border-raw-border pt-6">
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-raw-ochre"></i> 4K / 8K Cinema Camera Setup</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-raw-ochre"></i> Studio Lighting & Multi-Cam Staging</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-raw-ochre"></i> Directing & Shot Planning</li>
+            </ul>
+          </div>
+          <a href="#booking" class="mt-8 inline-block font-mono text-xs uppercase tracking-wider text-raw-ochre hover:text-raw-sand font-semibold">Book Videography →</a>
+        </div>
+
+        <div class="p-8 rounded-sm bg-raw-stucco border border-raw-border hover:border-raw-sand transition-all duration-300 flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-sm border border-raw-border bg-raw-wall flex items-center justify-center text-raw-ochre mb-6">
+              <i data-lucide="camera" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-serif text-xl text-raw-linen uppercase mb-3">Editorial Photography</h3>
+            <p class="text-xs text-raw-cement leading-relaxed mb-6">
+              Portraits, brand lookbooks, architectural spaces, outdoor sessions, and private shoots with magazine-grade skin retouching.
+            </p>
+            <ul class="space-y-2.5 font-mono text-xs text-raw-sand border-t border-raw-border pt-6">
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-raw-ochre"></i> Portrait & Lifestyle Sessions</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-raw-ochre"></i> Commercial Product & Fashion</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-raw-ochre"></i> High-Resolution Color Retouch</li>
+            </ul>
+          </div>
+          <a href="#booking" class="mt-8 inline-block font-mono text-xs uppercase tracking-wider text-raw-ochre hover:text-raw-sand font-semibold">Book Photography →</a>
+        </div>
+
+        <div class="p-8 rounded-sm bg-raw-stucco border border-raw-border hover:border-raw-sand transition-all duration-300 flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-sm border border-raw-border bg-raw-wall flex items-center justify-center text-raw-ochre mb-6">
+              <i data-lucide="sliders" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-serif text-xl text-raw-linen uppercase mb-3">Post-Production & Editing</h3>
+            <p class="text-xs text-raw-cement leading-relaxed mb-6">
+              Send raw footage from anywhere. Full rhythm cutting, cinematic DaVinci grading, sound design, and custom title design.
+            </p>
+            <ul class="space-y-2.5 font-mono text-xs text-raw-sand border-t border-raw-border pt-6">
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-raw-ochre"></i> DaVinci Resolve Color Grade</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-raw-ochre"></i> Sound Design & Foley Mixing</li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-raw-ochre"></i> Fast 48h Turnaround Available</li>
+            </ul>
+          </div>
+          <a href="#booking" class="mt-8 inline-block font-mono text-xs uppercase tracking-wider text-raw-ochre hover:text-raw-sand font-semibold">Book Editing →</a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WORKFLOW PROCESS -->
+  <section id="workflow" class="relative py-28 px-6 z-10 border-t border-raw-border bg-raw-wall">
+    <div class="max-w-6xl mx-auto">
+      
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <div class="font-mono text-[10px] text-raw-ochre uppercase tracking-[0.25em] mb-2 flex items-center justify-center gap-2">
+          <span class="w-2 h-2 bg-raw-ochre rounded-full"></span> EXECUTION
+        </div>
+        <h2 class="font-serif text-3xl sm:text-5xl text-raw-linen uppercase tracking-tight mb-3">PRODUCTION WORKFLOW</h2>
+        <p class="text-raw-sand/80 text-xs sm:text-sm font-light">From initial brief to final 4K masters delivery.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="p-6 rounded-sm bg-raw-stucco border border-raw-border">
+          <div class="font-mono text-xs text-raw-ochre mb-3">PHASE 01</div>
+          <h4 class="font-serif text-base text-raw-linen uppercase mb-2">Vision & Planning</h4>
+          <p class="text-xs text-raw-cement leading-relaxed">Concept outline, visual moodboard, equipment setup, and location scheduling.</p>
+        </div>
+
+        <div class="p-6 rounded-sm bg-raw-stucco border border-raw-border">
+          <div class="font-mono text-xs text-raw-ochre mb-3">PHASE 02</div>
+          <h4 class="font-serif text-base text-raw-linen uppercase mb-2">The Shoot</h4>
+          <p class="text-xs text-raw-cement leading-relaxed">Execution with cinema camera rigs, prime lenses, controlled lighting, and clean audio.</p>
+        </div>
+
+        <div class="p-6 rounded-sm bg-raw-stucco border border-raw-border">
+          <div class="font-mono text-xs text-raw-ochre mb-3">PHASE 03</div>
+          <h4 class="font-serif text-base text-raw-linen uppercase mb-2">Edit & Grade</h4>
+          <p class="text-xs text-raw-cement leading-relaxed">Story edit, DaVinci Resolve color grading, dynamic sound design, and retouching.</p>
+        </div>
+
+        <div class="p-6 rounded-sm bg-raw-stucco border border-raw-border">
+          <div class="font-mono text-xs text-raw-ochre mb-3">PHASE 04</div>
+          <h4 class="font-serif text-base text-raw-linen uppercase mb-2">Master Delivery</h4>
+          <p class="text-xs text-raw-cement leading-relaxed">Timestamped review link, final polish, and delivery of uncompressed 4K master files.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4. BOOKING FORM SECTION -->
+  <section id="booking" class="relative py-28 px-6 z-10 border-t border-raw-border bg-raw-wallAlt">
+    <div class="max-w-4xl mx-auto">
+      
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <div class="font-mono text-[10px] text-raw-ochre uppercase tracking-[0.25em] mb-2 flex items-center justify-center gap-2">
+          <span class="w-2 h-2 bg-raw-ochre rounded-full"></span> RESERVATIONS
+        </div>
+        <h2 class="font-serif text-3xl sm:text-5xl text-raw-linen uppercase tracking-tight mb-3">BOOK HARISH</h2>
+        <p class="text-raw-sand/80 text-xs sm:text-sm font-light">
+          Fill in your project brief to inquire about shoot dates or editing collaborations.
+        </p>
+      </div>
+
+      <div class="p-8 sm:p-12 rounded-sm bg-raw-stucco border border-raw-border shadow-2xl">
+        <form id="booking-form" class="space-y-6">
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label for="client-name" class="block font-mono text-[11px] uppercase tracking-wider text-raw-sand font-semibold mb-2">Full Name / Creator Name *</label>
+              <input type="text" id="client-name" required placeholder="e.g. Alex Morgan" class="w-full px-4 py-3 rounded-sm bg-raw-wall border border-raw-border focus:border-raw-sand focus:outline-none text-raw-linen text-xs font-mono">
+            </div>
+
+            <div>
+              <label for="client-phone" class="block font-mono text-[11px] uppercase tracking-wider text-raw-sand font-semibold mb-2">Phone / WhatsApp Number *</label>
+              <input type="tel" id="client-phone" required placeholder="e.g. +91 98765 43210" class="w-full px-4 py-3 rounded-sm bg-raw-wall border border-raw-border focus:border-raw-sand focus:outline-none text-raw-linen text-xs font-mono">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label for="client-social" class="block font-mono text-[11px] uppercase tracking-wider text-raw-sand font-semibold mb-2">Instagram / Brand Account *</label>
+              <input type="text" id="client-social" required placeholder="e.g. @youraccount or website" class="w-full px-4 py-3 rounded-sm bg-raw-wall border border-raw-border focus:border-raw-sand focus:outline-none text-raw-linen text-xs font-mono">
+            </div>
+
+            <div>
+              <label for="client-email" class="block font-mono text-[11px] uppercase tracking-wider text-raw-sand font-semibold mb-2">Email Address *</label>
+              <input type="email" id="client-email" required placeholder="alex@domain.com" class="w-full px-4 py-3 rounded-sm bg-raw-wall border border-raw-border focus:border-raw-sand focus:outline-none text-raw-linen text-xs font-mono">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div>
+              <label for="service-needed" class="block font-mono text-[11px] uppercase tracking-wider text-raw-sand font-semibold mb-2">Service Required *</label>
+              <select id="service-needed" class="w-full px-4 py-3 rounded-sm bg-raw-wall border border-raw-border focus:border-raw-sand focus:outline-none text-raw-linen text-xs font-mono">
+                <option value="Videography & Shoot">Videography & Cinema Shoot</option>
+                <option value="Editorial Photography">Editorial Photography Session</option>
+                <option value="Complete Shoot + Video Edit">Full Production (Shoot + Post-Production)</option>
+                <option value="Video Editing Only">Video Editing & Color Grading Only</option>
+                <option value="Commercial Campaign">Commercial / Brand Campaign</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="shoot-date" class="block font-mono text-[11px] uppercase tracking-wider text-raw-sand font-semibold mb-2">Preferred Shoot Date</label>
+              <input type="date" id="shoot-date" class="w-full px-4 py-3 rounded-sm bg-raw-wall border border-raw-border focus:border-raw-sand focus:outline-none text-raw-linen text-xs font-mono">
+            </div>
+
+            <div>
+              <label for="shoot-location" class="block font-mono text-[11px] uppercase tracking-wider text-raw-sand font-semibold mb-2">Location / City</label>
+              <input type="text" id="shoot-location" placeholder="e.g. Mumbai, Delhi, Studio" class="w-full px-4 py-3 rounded-sm bg-raw-wall border border-raw-border focus:border-raw-sand focus:outline-none text-raw-linen text-xs font-mono">
+            </div>
+          </div>
+
+          <div>
+            <label for="project-details" class="block font-mono text-[11px] uppercase tracking-wider text-raw-sand font-semibold mb-2">Project Brief & Concept Notes</label>
+            <textarea id="project-details" rows="4" placeholder="Describe the shoot requirements, number of deliverables, styling references, or footage link if editing..." class="w-full px-4 py-3 rounded-sm bg-raw-wall border border-raw-border focus:border-raw-sand focus:outline-none text-raw-linen text-xs font-mono leading-relaxed"></textarea>
+          </div>
+
+          <!-- Direct Action Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4 pt-2">
+            <button type="submit" id="submit-whatsapp-btn" class="flex-1 py-3.5 rounded-sm bg-raw-sand text-raw-charcoal font-mono font-bold text-xs uppercase tracking-wider hover:bg-raw-linen transition-all flex items-center justify-center gap-2">
+              <i data-lucide="message-circle" class="w-4 h-4"></i> Inquire via WhatsApp
+            </button>
+            <button type="button" id="submit-email-btn" class="flex-1 py-3.5 rounded-sm border border-raw-border bg-raw-wall hover:border-raw-sand text-raw-sand font-mono text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2">
+              <i data-lucide="mail" class="w-4 h-4"></i> Send Email Request
+            </button>
+          </div>
+
+          <div id="booking-status" class="hidden p-4 rounded-sm font-mono text-xs text-center"></div>
+
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="relative py-12 px-6 border-t border-raw-border bg-raw-wall z-10 font-mono text-xs text-raw-cement">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <span class="font-serif tracking-widest text-raw-linen uppercase font-semibold">HARISH STUDIOS</span>
+        <span>•</span>
+        <span>Harish14021204@gmail.com</span>
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="https://wa.me/919940826494" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1.5 font-medium">
+          <i data-lucide="phone" class="w-3.5 h-3.5"></i> +91 9940826494
+        </a>
+        <a href="https://www.instagram.com/krishhhh.verse" target="_blank" rel="noopener noreferrer" class="text-raw-sand hover:text-raw-linen transition-colors flex items-center gap-1.5 font-medium">
+          <i data-lucide="instagram" class="w-3.5 h-3.5 text-raw-ochre"></i> @krishhhh.verse
+        </a>
+        <a href="#hero" class="text-raw-cement hover:text-raw-sand transition-colors">Top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MEDIA PREVIEW MODAL -->
+  <div id="media-modal" class="fixed inset-0 z-[10000] hidden items-center justify-center p-4 sm:p-8 bg-black/95 backdrop-blur-xl transition-all duration-300">
+    <div class="relative w-full max-w-4xl bg-raw-stucco border border-raw-border rounded-sm overflow-hidden shadow-2xl">
+      
+      <div class="p-4 px-6 bg-raw-wallAlt border-b border-raw-border flex items-center justify-between">
+        <div>
+          <h3 id="modal-media-title" class="font-serif text-raw-linen text-base uppercase">Project Preview</h3>
+          <p id="modal-media-desc" class="font-mono text-[11px] text-raw-cement">Cinematography & Visual Direction</p>
+        </div>
+        <button id="modal-close-btn" class="w-8 h-8 rounded-sm bg-raw-wall hover:bg-raw-border text-raw-sand flex items-center justify-center transition-colors">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="relative aspect-video w-full bg-black flex items-center justify-center overflow-hidden" id="modal-media-content">
+        <iframe id="modal-video-iframe" class="w-full h-full border-0" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <video id="modal-local-video" class="hidden w-full h-full object-contain" controls autoplay></video>
+        <img id="modal-photo-img" class="hidden max-h-full max-w-full object-contain" src="" alt="Portfolio Preview">
+      </div>
+
+      <div class="p-4 px-6 bg-raw-wallAlt border-t border-raw-border flex items-center justify-between">
+        <span class="font-mono text-[11px] text-raw-cement">Ready to produce a similar project?</span>
+        <a href="#booking" id="modal-book-cta" class="px-5 py-2 rounded-sm bg-raw-sand text-raw-charcoal font-mono font-bold text-xs uppercase tracking-wider hover:bg-raw-linen transition-all">
+          Book This Style
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="app.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
